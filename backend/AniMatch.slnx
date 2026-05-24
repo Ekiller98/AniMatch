@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AniMatch.Api/AniMatch.Api.csproj" />
+    <Project Path="src/AniMatch.Application/AniMatch.Application.csproj" />
+    <Project Path="src/AniMatch.Domain/AniMatch.Domain.csproj" />
+    <Project Path="src/AniMatch.Infrastructure/AniMatch.Infrastructure.csproj" />
+    <Project Path="src/AniMatch.Persistence/AniMatch.Persistence.csproj" />
+    <Project Path="src/AniMatch.Shared/AniMatch.Shared.csproj" />
+  </Folder>
+</Solution>
