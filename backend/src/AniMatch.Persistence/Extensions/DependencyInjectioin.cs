@@ -14,7 +14,8 @@ public static class DependencyInjection
     {
         services.AddDbContext<AniMatchDbContext>(options =>
             options.UseNpgsql(
-                configuration.GetConnectionString("DefaultConnection")));
+                configuration.GetConnectionString("DefaultConnection"))
+                .UseSnakeCaseNamingConvention());
 
         return services;
     }
