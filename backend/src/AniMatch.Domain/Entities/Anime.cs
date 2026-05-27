@@ -9,7 +9,7 @@ namespace AniMatch.Domain.Entities
         public int Id { get; set; }
         public int AniListId { get; set; }
         public string? TitleEnglish { get; set; }
-        public string? TitleRomaji { get; set; }
+        public string? TitleRomaji { get; set; } = string.Empty;
         public string? TitleNative { get; set; }
         public string? Description { get; set; }
         public string? CoverImageUrl { get; set; }
