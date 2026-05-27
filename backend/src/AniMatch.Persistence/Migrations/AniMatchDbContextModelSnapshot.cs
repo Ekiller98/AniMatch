@@ -84,6 +84,7 @@ namespace AniMatch.Persistence.Migrations
                         .HasColumnName("status");
 
                     b.Property<string>("TitleEnglish")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("title_english");
 
@@ -92,6 +93,7 @@ namespace AniMatch.Persistence.Migrations
                         .HasColumnName("title_native");
 
                     b.Property<string>("TitleRomaji")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("title_romaji");
 
