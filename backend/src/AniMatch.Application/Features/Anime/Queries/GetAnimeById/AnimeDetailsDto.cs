@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AniMatch.Application.Features.Anime.Queries.GetAnimeById
+﻿namespace AniMatch.Application.Features.Anime.Queries.GetAnimeById
 {
     public class AnimeDetailsDto
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using AniMatch.Domain.Entities;
 
 namespace AniMatch.Persistence.Context;

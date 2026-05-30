@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AniMatch.Application.Common.Interfaces.Persistence;
+﻿using AniMatch.Application.Common.Interfaces.Persistence;
 using AniMatch.Domain.Entities;
 using AniMatch.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
@@ -17,17 +14,17 @@ namespace AniMatch.Persistence.Repositories
             _dbContext = dbcontext;
         }
 
-        public async Task<Anime?> GetByIdAsync(int id) 
+        public async Task<Anime?> GetByIdAsync(int id, CancellationToken cancellation) 
         {
             return await _dbContext.Anime
             .FirstOrDefaultAsync(anime => anime.Id == id);
         }
-        public async Task<Anime?> GetByAniListIdAsync(int anilistid)
+        public async Task<Anime?> GetByAniListIdAsync(int anilistid, CancellationToken cancellation)
         {
             return await _dbContext.Anime
                 .FirstOrDefaultAsync(anime => anime.AniListId == anilistid);
         }
-        public async Task<List<Anime>> SearchAsync(string query)
+        public async Task<List<Anime>> SearchAsync(string query, CancellationToken cancellation)
         {
             return await _dbContext.Anime
                 .Where(anime =>
@@ -35,11 +32,11 @@ namespace AniMatch.Persistence.Repositories
                     anime.TitleEnglish != null && anime.TitleEnglish.Contains(query))
                 .ToListAsync();
         }
-        public async Task AddAsync(Anime anime)
+        public async Task AddAsync(Anime anime, CancellationToken cancellation)
         {
             await _dbContext.Anime.AddAsync(anime);
         }
-        public async Task SaveChangesAsync()
+        public async Task SaveChangesAsync(CancellationToken cancellation)
         {
             await _dbContext.SaveChangesAsync();
         }

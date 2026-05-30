@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AniMatch.Domain.Entities
+﻿namespace AniMatch.Domain.Entities
 {
     public class Anime
     {
