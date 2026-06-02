@@ -63,8 +63,8 @@ namespace AniMatch.Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("format");
 
-                    b.Property<int>("IsAdult")
-                        .HasColumnType("integer")
+                    b.Property<bool>("IsAdult")
+                        .HasColumnType("boolean")
                         .HasColumnName("is_adult");
 
                     b.Property<DateTime?>("LastSyncedAt")

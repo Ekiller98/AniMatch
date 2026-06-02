@@ -30,7 +30,7 @@
         
         public int? Popularity { get; set; }
         
-        public int IsAdult { get; set; }
+        public bool IsAdult { get; set; }
         
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         
