@@ -12,9 +12,9 @@ namespace AniMatch.Application.Features.Anime.Queries.GetAnimeById
             _animeRepository = animeRepository;
         }
 
-        public async Task<AnimeDetailsDto?> Handle(GetAnimeByIdQuery request, CancellationToken cancellationToken)
+        public async Task<AnimeDetailsDto?> Handle(GetAnimeByIdQuery request, CancellationToken cancellation)
         {
-            var anime = await _animeRepository.GetByIdAsync(request.Id, cancellationToken);
+            var anime = await _animeRepository.GetByIdAsync(request.Id, cancellation);
 
             if (anime == null)
             {

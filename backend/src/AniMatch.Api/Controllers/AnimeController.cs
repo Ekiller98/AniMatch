@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using AniMatch.Application.Features.Anime.Queries.GetAnimeById;
+using AniMatch.Application.Features.Anime.Queries.SearchAnime;
 
 
 
@@ -28,6 +29,13 @@ namespace AniMatch.Api.Controllers
             }
 
             return Ok(anime);
+        }
+        [HttpGet("search")]
+        public async Task<ActionResult<List<AnimeSearchResultDto>>>Search([FromQuery]string query, CancellationToken cancellation)
+        {
+            var animeList = await _mediator.Send(new SearchAnimeQuery(query), cancellation);
+
+            return Ok(animeList);
         }
     }
 }
