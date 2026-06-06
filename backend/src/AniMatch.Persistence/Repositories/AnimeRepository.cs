@@ -26,10 +26,13 @@ namespace AniMatch.Persistence.Repositories
         }
         public async Task<List<Anime>> SearchAsync(string query, CancellationToken cancellation)
         {
+            var searchPattern = $"%{query}%";
+
             return await _dbContext.Anime
                 .Where(anime =>
-                    anime.TitleRomaji.Contains(query) ||
-                    anime.TitleEnglish != null && anime.TitleEnglish.Contains(query))
+                    EF.Functions.ILike(anime.TitleRomaji, searchPattern) || 
+                    anime.TitleEnglish != null && 
+                    EF.Functions.ILike(anime.TitleEnglish, searchPattern ))
                 .ToListAsync();
         }
         public async Task AddAsync(Anime anime, CancellationToken cancellation)

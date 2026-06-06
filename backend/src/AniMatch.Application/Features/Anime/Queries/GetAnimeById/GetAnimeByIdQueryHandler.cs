@@ -35,8 +35,6 @@ namespace AniMatch.Application.Features.Anime.Queries.GetAnimeById
                 AverageScore = anime.AverageScore,
                 Popularity = anime.Popularity
             };
-
-
         }
     }
 }

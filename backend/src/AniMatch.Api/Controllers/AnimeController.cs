@@ -33,6 +33,12 @@ namespace AniMatch.Api.Controllers
         [HttpGet("search")]
         public async Task<ActionResult<List<AnimeSearchResultDto>>>Search([FromQuery]string query, CancellationToken cancellation)
         {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return BadRequest("Search query is required");
+
+            }
+
             var animeList = await _mediator.Send(new SearchAnimeQuery(query), cancellation);
 
             return Ok(animeList);
