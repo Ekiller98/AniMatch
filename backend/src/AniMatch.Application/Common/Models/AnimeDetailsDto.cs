@@ -1,4 +1,4 @@
-﻿namespace AniMatch.Application.Features.Anime.Queries.GetAnimeById
+﻿namespace AniMatch.Application.Common.Models
 {
     public class AnimeDetailsDto
     {

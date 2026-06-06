@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using AniMatch.Application.Features.Anime.Queries.GetAnimeById;
 using AniMatch.Application.Features.Anime.Queries.SearchAnime;
+using AniMatch.Application.Features.Anime.Queries.ExternalSearchAnime;
+using AniMatch.Application.Common.Models;
 
 
 
@@ -13,13 +15,13 @@ namespace AniMatch.Api.Controllers
     {
         private readonly IMediator _mediator;
 
-        public AnimeController(IMediator mediator) 
+        public AnimeController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<AnimeDetailsDto>> GetById(int id, CancellationToken cancellation) 
+        public async Task<ActionResult<AnimeDetailsDto>> GetById(int id, CancellationToken cancellation)
         {
             var anime = await _mediator.Send(new GetAnimeByIdQuery(id), cancellation);
 
@@ -30,8 +32,9 @@ namespace AniMatch.Api.Controllers
 
             return Ok(anime);
         }
+
         [HttpGet("search")]
-        public async Task<ActionResult<List<AnimeSearchResultDto>>>Search([FromQuery]string query, CancellationToken cancellation)
+        public async Task<ActionResult<List<AnimeSearchResultDto>>> Search([FromQuery] string query, CancellationToken cancellation)
         {
             if (string.IsNullOrWhiteSpace(query))
             {
@@ -42,6 +45,20 @@ namespace AniMatch.Api.Controllers
             var animeList = await _mediator.Send(new SearchAnimeQuery(query), cancellation);
 
             return Ok(animeList);
+        }
+
+        [HttpGet("external-search")]
+        public async Task<ActionResult<List<AniListAnimeDto>>> ExternalSearch([FromQuery] string query, CancellationToken cancellation)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return BadRequest("Search query is required");
+
+            }
+
+            var externalAnimeList = await _mediator.Send(new ExternalSearchAnimeQuery(query), cancellation);
+
+            return Ok(externalAnimeList);
         }
     }
 }

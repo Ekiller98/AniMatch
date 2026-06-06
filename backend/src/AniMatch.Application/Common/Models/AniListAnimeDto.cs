@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AniMatch.Application.Common.Models
+﻿namespace AniMatch.Application.Common.Models
 {
     public class AniListAnimeDto
     {
         public int AniListId { get; set; }
 
-        public string TitleEnglish { get; set; } = string.Empty;
+        public string? TitleEnglish { get; set; }
 
         public string TitleRomaji { get; set; } = string.Empty;
 

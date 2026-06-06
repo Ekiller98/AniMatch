@@ -1,5 +1,6 @@
 ﻿using AniMatch.Application.Common.Interfaces.Infrastructure;
 using AniMatch.Application.Common.Models;
+using System.Net.Http.Json;
 
 namespace AniMatch.Infrastructure.External.AniList
 {
@@ -14,7 +15,126 @@ namespace AniMatch.Infrastructure.External.AniList
 
         public async Task<List<AniListAnimeDto>> SearchAnimeAsync(string query, CancellationToken cancellation)
         {
-            throw new NotImplementedException();
+            var graphQlQuery = """
+            query ($search: String) {
+              Page(page: 1, perPage: 10) {
+                media(search: $search, type: ANIME) {
+                  id
+                  title {
+                    romaji
+                    english
+                    native
+                  }
+                  description
+                  coverImage {
+                    large
+                  }
+                  bannerImage
+                  format
+                  status
+                  seasonYear
+                  episodes
+                  averageScore
+                  popularity
+                  isAdult
+                }
+              }
+            }
+            """;
+
+            var requestBody = new
+            {
+                query = graphQlQuery,
+                variables = new
+                {
+                    search = query
+                }
+            };
+
+            var aniListHttpResponse = await _httpClient.PostAsJsonAsync("https://graphql.anilist.co", requestBody, cancellation);
+
+            aniListHttpResponse.EnsureSuccessStatusCode();
+
+            var AniListGraphQlResponse = await aniListHttpResponse.Content.ReadFromJsonAsync<AniListGraphQlResponse>(cancellation);
+
+            var media = AniListGraphQlResponse?.Data?.Page?.Media ?? [];
+
+            return media
+                .Select(anime => new AniListAnimeDto
+                {
+                    AniListId = anime.Id,
+                    TitleRomaji = anime.Title?.Romaji ?? string.Empty,
+                    TitleEnglish = anime.Title?.English ,
+                    TitleNative = anime.Title?.Native,
+                    Description = anime.Description,
+                    CoverImageUrl = anime.CoverImage?.Large,
+                    BannerImageUrl = anime.BannerImage,
+                    Format = anime.Format,
+                    Status = anime.Status,
+                    SeasonYear = anime.SeasonYear,
+                    Episodes = anime.Episodes,
+                    AverageScore = anime.AverageScore,
+                    Popularity = anime.Popularity,
+                    IsAdult = anime.IsAdult
+                })
+                .ToList();
+
+
+        }
+        private class AniListGraphQlResponse
+        {
+            public AniListDataResponse? Data { get; set; }
+        }
+
+        private class AniListDataResponse
+        {
+            public AniListPageResponse? Page { get; set; }
+        }
+
+        private class AniListPageResponse
+        {
+            public List<AniListMediaResponse> Media { get; set; } = [];
+        }
+
+        private class AniListMediaResponse
+        {
+            public int Id { get; set; }
+
+            public AniListTitleResponse? Title { get; set; }
+
+            public string? Description { get; set; }
+
+            public AniListCoverImageResponse? CoverImage { get; set; }
+
+            public string? BannerImage { get; set; }
+
+            public string? Format { get; set; }
+
+            public string? Status { get; set; }
+
+            public int? SeasonYear { get; set; }
+
+            public int? Episodes { get; set; }
+
+            public int? AverageScore { get; set; }
+
+            public int? Popularity { get; set; }
+
+            public bool IsAdult { get; set; }
+        }
+
+        private class AniListTitleResponse
+        {
+            public string? Romaji { get; set; }
+
+            public string? English { get; set; }
+
+            public string? Native { get; set; }
+        }
+
+        private class AniListCoverImageResponse
+        {
+            public string? Large { get; set; }
         }
     }
 }
