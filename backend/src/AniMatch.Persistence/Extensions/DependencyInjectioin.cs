@@ -1,5 +1,4 @@
-﻿using System;
-using AniMatch.Persistence.Context;
+﻿using AniMatch.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
