@@ -51,16 +51,15 @@ namespace AniMatch.Infrastructure.External.AniList
                 }
             };
 
-            var aniListHttpResponse = await _httpClient.PostAsJsonAsync("https://graphql.anilist.co", requestBody, cancellation);
+            var aniListJsonResponse = await _httpClient.PostAsJsonAsync("https://graphql.anilist.co", requestBody, cancellation);
 
-            aniListHttpResponse.EnsureSuccessStatusCode();
+            aniListJsonResponse.EnsureSuccessStatusCode();
 
-            var AniListGraphQlResponse = await aniListHttpResponse.Content.ReadFromJsonAsync<AniListGraphQlResponse>(cancellation);
+            var AniListGraphQlResponse = await aniListJsonResponse.Content.ReadFromJsonAsync<AniListGraphQlResponse>(cancellation);
 
             var media = AniListGraphQlResponse?.Data?.Page?.Media ?? [];
 
-            return media
-                .Select(anime => new AniListAnimeDto
+            return media.Select(anime => new AniListAnimeDto
                 {
                     AniListId = anime.Id,
                     TitleRomaji = anime.Title?.Romaji ?? string.Empty,
@@ -78,9 +77,83 @@ namespace AniMatch.Infrastructure.External.AniList
                     IsAdult = anime.IsAdult
                 })
                 .ToList();
-
-
         }
+        public async Task<AniListAnimeDto?> GetAnimeByIdAsync(int aniListId, CancellationToken cancellation)
+        {
+            var graphQlQuery = """
+            query ($id: Int!) {
+              Media(id: $id, type: ANIME) {
+                id
+                title {
+                  romaji
+                  english
+                  native
+                }
+                description
+                coverImage {
+                  large
+                }
+                bannerImage
+                format
+                status
+                seasonYear
+                episodes
+                averageScore
+                popularity
+                isAdult
+              }
+            }
+            """;
+
+            var requestBody = new
+            {
+                query = graphQlQuery,
+                variables = new
+                {
+                    id = aniListId
+                }
+            };
+
+            var aniListJsonResponse = await _httpClient.PostAsJsonAsync("https://graphql.anilist.co", requestBody, cancellation);
+
+            aniListJsonResponse.EnsureSuccessStatusCode();
+
+            var aniListSingleGraphQlResponse = await aniListJsonResponse.Content.ReadFromJsonAsync<AniListSingleGraphQlResponse>(cancellation);
+
+            var media = aniListSingleGraphQlResponse?.Data?.Media;
+
+            if (media == null)
+            {
+                return null;
+            }
+            return new AniListAnimeDto
+            {
+                AniListId = media.Id,
+                TitleRomaji = media.Title?.Romaji ?? string.Empty,
+                TitleEnglish = media.Title?.English,
+                TitleNative = media.Title?.Native,
+                Description = media.Description,
+                CoverImageUrl = media.CoverImage?.Large,
+                BannerImageUrl = media.BannerImage,
+                Format = media.Format,
+                Status = media.Status,
+                SeasonYear = media.SeasonYear,
+                Episodes = media.Episodes,
+                AverageScore = media.AverageScore,
+                Popularity = media.Popularity,
+                IsAdult = media.IsAdult
+            };
+        }
+        private class AniListSingleGraphQlResponse
+        {
+            public AniListSingleDataResponse? Data { get; set; }
+        }
+
+        private class AniListSingleDataResponse
+        {
+            public AniListMediaResponse? Media { get; set; }
+        }
+
         private class AniListGraphQlResponse
         {
             public AniListDataResponse? Data { get; set; }

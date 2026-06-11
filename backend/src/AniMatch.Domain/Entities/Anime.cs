@@ -6,7 +6,7 @@
 
         public int AniListId { get; set; }
         
-        public string TitleEnglish { get; set; } = string.Empty;
+        public string? TitleEnglish { get; set; }
         
         public string TitleRomaji { get; set; } = string.Empty;
 

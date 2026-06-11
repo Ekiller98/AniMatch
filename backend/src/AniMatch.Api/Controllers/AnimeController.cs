@@ -4,6 +4,7 @@ using AniMatch.Application.Features.Anime.Queries.GetAnimeById;
 using AniMatch.Application.Features.Anime.Queries.SearchAnime;
 using AniMatch.Application.Features.Anime.Queries.ExternalSearchAnime;
 using AniMatch.Application.Common.Models;
+using AniMatch.Application.Features.Anime.Commands.ExternalAnimeImport;
 
 
 
@@ -47,6 +48,7 @@ namespace AniMatch.Api.Controllers
             return Ok(animeList);
         }
 
+        //regular search now calls aniList client so this can be deleted upon MVP
         [HttpGet("external-search")]
         public async Task<ActionResult<List<AniListAnimeDto>>> ExternalSearch([FromQuery] string query, CancellationToken cancellation)
         {
@@ -59,6 +61,19 @@ namespace AniMatch.Api.Controllers
             var externalAnimeList = await _mediator.Send(new ExternalSearchAnimeQuery(query), cancellation);
 
             return Ok(externalAnimeList);
+        }
+
+        [HttpPost("import/{aniListId:int}")]
+        public async Task<ActionResult<AnimeDetailsDto>> ImportAnimeByExternalId(int aniListId, CancellationToken cancellation)
+        {
+            var anime = await _mediator.Send(new ImportExternalAnimeCommand(aniListId), cancellation);
+
+            if (anime == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(anime);
         }
     }
 }
