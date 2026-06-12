@@ -6,8 +6,6 @@ using AniMatch.Application.Features.Anime.Queries.ExternalSearchAnime;
 using AniMatch.Application.Common.Models;
 using AniMatch.Application.Features.Anime.Commands.ExternalAnimeImport;
 
-
-
 namespace AniMatch.Api.Controllers
 {
     [ApiController]

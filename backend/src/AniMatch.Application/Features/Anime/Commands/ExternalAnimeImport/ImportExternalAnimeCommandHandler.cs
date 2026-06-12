@@ -61,7 +61,7 @@ namespace AniMatch.Application.Features.Anime.Commands.ExternalAnimeImport
                 Episodes = aniListAnime.Episodes,
                 AverageScore = aniListAnime.AverageScore,
                 Popularity = aniListAnime.Popularity,
-                IsAdult = aniListAnime.IsAdult,
+                IsAdult = aniListAnime.IsAdult
             };
 
             await _animeRepository.AddAsync(animeToBeStored, cancellation);
