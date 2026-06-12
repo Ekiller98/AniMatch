@@ -18,7 +18,7 @@
         
         public string? BannerImageUrl { get; set; }
         
-        public string ? Format { get; set; }
+        public string? Format { get; set; }
         
         public string? Status { get; set; }
         
