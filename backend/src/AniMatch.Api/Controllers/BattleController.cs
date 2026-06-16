@@ -2,7 +2,6 @@
 using AniMatch.Application.Features.Battles.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.Json;
 
 namespace AniMatch.Api.Controllers
 {
