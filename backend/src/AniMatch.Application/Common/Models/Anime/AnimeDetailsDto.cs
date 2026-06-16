@@ -1,14 +1,12 @@
-﻿namespace AniMatch.Application.Common.Models
+﻿namespace AniMatch.Application.Common.Models.Anime
 {
-    public class AniListAnimeDto
+    public class AnimeDetailsDto
     {
+        public int Id { get; set; }
+
         public int AniListId { get; set; }
 
-        public string? TitleEnglish { get; set; }
-
-        public string TitleRomaji { get; set; } = string.Empty;
-
-        public string? TitleNative { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         public string? Description { get; set; }
 
@@ -20,14 +18,10 @@
 
         public string? Status { get; set; }
 
-        public int? SeasonYear { get; set; }
-
         public int? Episodes { get; set; }
 
         public int? AverageScore { get; set; }
 
         public int? Popularity { get; set; }
-
-        public bool IsAdult { get; set; }
     }
 }

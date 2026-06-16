@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using AniMatch.Application.Features.Anime.Queries.GetAnimeById;
 using AniMatch.Application.Features.Anime.Queries.SearchAnime;
 using AniMatch.Application.Features.Anime.Queries.ExternalSearchAnime;
-using AniMatch.Application.Common.Models;
 using AniMatch.Application.Features.Anime.Commands.ExternalAnimeImport;
+using AniMatch.Application.Common.Models.Anime;
 
 namespace AniMatch.Api.Controllers
 {

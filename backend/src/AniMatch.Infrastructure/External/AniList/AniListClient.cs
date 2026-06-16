@@ -1,5 +1,5 @@
 ﻿using AniMatch.Application.Common.Interfaces.Infrastructure;
-using AniMatch.Application.Common.Models;
+using AniMatch.Application.Common.Models.Anime;
 using System.Net.Http.Json;
 
 namespace AniMatch.Infrastructure.External.AniList

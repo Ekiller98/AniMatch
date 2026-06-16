@@ -9,7 +9,5 @@ namespace AniMatch.Application.Common.Interfaces.Persistence
         Task <List<Anime>> SearchAsync (string query, CancellationToken cancellation);
         Task AddAsync(Anime anime, CancellationToken cancellation);
         Task SaveChangesAsync(CancellationToken cancellation);
-
-
     }
 }

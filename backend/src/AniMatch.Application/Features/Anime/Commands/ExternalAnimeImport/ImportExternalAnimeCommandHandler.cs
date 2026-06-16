@@ -1,8 +1,8 @@
 ﻿using AniMatch.Application.Common.Interfaces.Infrastructure;
 using AniMatch.Application.Common.Interfaces.Persistence;
-using AniMatch.Application.Common.Models;
 using AnimeEntity = AniMatch.Domain.Entities.Anime;
 using MediatR;
+using AniMatch.Application.Common.Models.Anime;
 
 namespace AniMatch.Application.Features.Anime.Commands.ExternalAnimeImport
 {

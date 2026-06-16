@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using AniMatch.Application.Common.Interfaces.Persistence;
-using AniMatch.Application.Common.Models;
 using AniMatch.Application.Common.Interfaces.Infrastructure;
+using AniMatch.Application.Common.Models.Anime;
 
 namespace AniMatch.Application.Features.Anime.Queries.SearchAnime
 {

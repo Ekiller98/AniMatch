@@ -105,6 +105,112 @@ namespace AniMatch.Persistence.Migrations
 
                     b.ToTable("anime", (string)null);
                 });
+
+            modelBuilder.Entity("AniMatch.Domain.Entities.Battle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AnimeAId")
+                        .HasColumnType("integer")
+                        .HasColumnName("anime_a_id");
+
+                    b.Property<int>("AnimeBId")
+                        .HasColumnType("integer")
+                        .HasColumnName("anime_b_id");
+
+                    b.Property<int>("BattlePromptId")
+                        .HasColumnType("integer")
+                        .HasColumnName("battle_prompt_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.HasKey("Id")
+                        .HasName("pk_battles");
+
+                    b.HasIndex("AnimeAId")
+                        .HasDatabaseName("ix_battles_anime_a_id");
+
+                    b.HasIndex("AnimeBId")
+                        .HasDatabaseName("ix_battles_anime_b_id");
+
+                    b.HasIndex("BattlePromptId")
+                        .HasDatabaseName("ix_battles_battle_prompt_id");
+
+                    b.ToTable("battles", (string)null);
+                });
+
+            modelBuilder.Entity("AniMatch.Domain.Entities.BattlePrompt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .HasColumnType("text")
+                        .HasColumnName("category");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.HasKey("Id")
+                        .HasName("pk_battle_prompts");
+
+                    b.ToTable("battle_prompts", (string)null);
+                });
+
+            modelBuilder.Entity("AniMatch.Domain.Entities.Battle", b =>
+                {
+                    b.HasOne("AniMatch.Domain.Entities.Anime", "AnimeA")
+                        .WithMany()
+                        .HasForeignKey("AnimeAId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_battles_anime_anime_a_id");
+
+                    b.HasOne("AniMatch.Domain.Entities.Anime", "AnimeB")
+                        .WithMany()
+                        .HasForeignKey("AnimeBId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_battles_anime_anime_b_id");
+
+                    b.HasOne("AniMatch.Domain.Entities.BattlePrompt", "Prompt")
+                        .WithMany()
+                        .HasForeignKey("BattlePromptId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_battles_battle_prompts_battle_prompt_id");
+
+                    b.Navigation("AnimeA");
+
+                    b.Navigation("AnimeB");
+
+                    b.Navigation("Prompt");
+                });
 #pragma warning restore 612, 618
         }
     }

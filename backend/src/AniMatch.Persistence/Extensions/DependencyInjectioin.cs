@@ -17,6 +17,7 @@ public static class DependencyInjection
                 .UseSnakeCaseNamingConvention());
 
         services.AddScoped<IAnimeRepository, AnimeRepository>();
+        services.AddScoped<IBattleRepository, BattleRepository>();
 
         return services;
     }

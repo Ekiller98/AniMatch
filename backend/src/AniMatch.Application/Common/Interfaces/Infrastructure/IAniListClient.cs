@@ -1,4 +1,4 @@
-﻿using AniMatch.Application.Common.Models;
+﻿using AniMatch.Application.Common.Models.Anime;
 
 namespace AniMatch.Application.Common.Interfaces.Infrastructure
 {

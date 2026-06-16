@@ -1,4 +1,4 @@
-﻿namespace AniMatch.Application.Common.Models
+﻿namespace AniMatch.Application.Common.Models.Anime
 {
     public class AnimeSearchResultDto
     {
