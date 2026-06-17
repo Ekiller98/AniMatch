@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using AniMatch.Domain.Entities;
+﻿using AniMatch.Domain.Entities;
+using AniMatch.Persistence.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace AniMatch.Persistence.Context;
 
-public class AniMatchDbContext : DbContext
+public class AniMatchDbContext : IdentityDbContext<ApplicationUser>
 {
 	public AniMatchDbContext(DbContextOptions<AniMatchDbContext> options)
 		: base(options)
@@ -17,7 +20,15 @@ public class AniMatchDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.Entity<ApplicationUser>().ToTable("users");
+        modelBuilder.Entity<IdentityRole>().ToTable("roles");
+        modelBuilder.Entity<IdentityUserRole<string>>().ToTable("user_roles");
+        modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("user_claims");
+        modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("user_logins");
+        modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("role_claims");
+        modelBuilder.Entity<IdentityUserToken<string>>().ToTable("user_tokens");
         modelBuilder.Entity<Battle>()
+
             .HasOne(b => b.AnimeA)
             .WithMany()
             .HasForeignKey(b => b.AnimeAId)
