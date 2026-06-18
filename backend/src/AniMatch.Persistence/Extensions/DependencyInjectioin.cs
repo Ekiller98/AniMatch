@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using AniMatch.Application.Common.Interfaces.Persistence;
 using AniMatch.Persistence.Repositories;
 using AniMatch.Persistence.Identity;
+using AniMatch.Persistence.Auth;
+using AniMatch.Application.Common.Interfaces.Auth;
 
 namespace AniMatch.Persistence.Extensions;
 
@@ -23,6 +25,8 @@ public static class DependencyInjection
         services.AddScoped<IAnimeRepository, AnimeRepository>();
 
         services.AddScoped<IBattleRepository, BattleRepository>();
+
+        services.AddScoped<IAuthService, AuthService>();
 
         return services;
     }
