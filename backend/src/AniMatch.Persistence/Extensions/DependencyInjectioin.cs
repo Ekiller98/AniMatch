@@ -19,7 +19,16 @@ public static class DependencyInjection
                 configuration.GetConnectionString("DefaultConnection"))
                 .UseSnakeCaseNamingConvention());
 
-        services.AddIdentityCore<ApplicationUser>()
+        services.AddIdentityCore<ApplicationUser>(options =>
+        {
+            options.Password.RequiredLength = 8;
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireNonAlphanumeric = false;
+
+            options.User.RequireUniqueEmail = true;
+        })
             .AddEntityFrameworkStores<AniMatchDbContext>();
 
         services.AddScoped<IAnimeRepository, AnimeRepository>();
