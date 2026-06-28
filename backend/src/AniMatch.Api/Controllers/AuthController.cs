@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using AniMatch.Application.Features.Auth.Commands.Login;
 using AniMatch.Application.Common.Models.Auth;
 using AniMatch.Application.Features.Auth.Commands.Register;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 
 namespace AniMatch.Api.Controllers
@@ -36,6 +38,31 @@ namespace AniMatch.Api.Controllers
                 return Unauthorized("Invalid username or password");
             }
             return Ok(authResult);
+        }
+
+        // test endpoint
+        [Authorize]
+        [HttpGet("me")]
+        public ActionResult<object> Me()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                ?? User.FindFirstValue("sub");
+
+            var username = User.FindFirstValue(ClaimTypes.Name)
+                ?? User.FindFirstValue("unique_name");
+
+            var email = User.FindFirstValue(ClaimTypes.Email)
+                ?? User.FindFirstValue("email");
+
+            var displayName = User.FindFirstValue("displayName");
+
+            return Ok(new
+            {
+                UserId = userId,
+                Username = username,
+                Email = email,
+                DisplayName = displayName,
+            });
         }
 
     }
